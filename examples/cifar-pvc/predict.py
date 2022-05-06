@@ -1,10 +1,9 @@
-from kserve import KServeClient
-
 import os
-import json
-import requests
-from PIL import Image
+
 import numpy as np
+import requests
+from kserve import KServeClient
+from PIL import Image
 
 INGRESS_HOST = os.environ["INGRESS_HOST"]
 INGRESS_PORT = os.environ["INGRESS_PORT"]
