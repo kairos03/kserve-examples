@@ -1,0 +1,19 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: onnx-cifar10
+spec:
+  predictor:
+    triton:
+      storageUri: "pvc://onnx-cifar10-pvc"
+      runtimeVersion: 22.04-py3
+      env:
+        - name: OMP_NUM_THREADS
+          value: "1"
+      resources:
+        limits:
+          cpu: 8
+          memory: 10Gi
+        requests:
+          cpu: 0.2
+          memory: 0.5Gi
