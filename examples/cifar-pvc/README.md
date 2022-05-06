@@ -12,20 +12,22 @@ Run `prepare_model.py`.
 python prepare_model.py
 ```
 
+model is downloade and converted to onnx. It stored in `cifar/1/model.onnx`.
+
 ## Create PVC and copy model
 create pvc for store model
 ```
 kubectl apply -f pvc.yaml
 ```
 
-create copy pod to copy model into pvc and enter created pod.
+create pod to copy model into pvc and enter created pod.
 ```
 kubectl apply -f copy-pod.yaml
 
 kubectl exec -it model-store-pod -- bash
 ```
 
-In other terminal, copy model into pvc via model-store-pod.
+Open other terminal, copy model into pvc via model-store-pod.
 ```
 kubectl cp cifar model-store-pod:/cifar -c model-store
 ```
@@ -51,4 +53,28 @@ NAME           URL                                       READY   PREV   LATEST  
 onnx-cifar10   http://onnx-cifar10.omnious.example.com   True           100                              onnx-cifar10-predictor-default-00001   1m
 ```
 
-## 
+## Inference
+Set ingress host, port and namespace of model deploied.
+
+```sh
+export INGRESS_HOST=xxx.xxx.xxx.xxx
+export INGRESS_PORT=xxxxx
+export NAMESPACE=xxxxx
+```
+
+If your kubeflow's username and password is not default, change `USERNAME` and `PASSWORD` in `predict.py`.
+
+```python
+# predict.py
+...
+
+USERNAME = "user@example.com"   # change yours
+PASSWORD = "12341234"           # change yours
+
+...
+```
+
+Run `predict.py`
+```sh
+python predict.py
+```
