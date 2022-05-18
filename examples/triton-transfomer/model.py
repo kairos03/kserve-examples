@@ -50,3 +50,20 @@ class ImageTransformer(Model):
 
     def postprocess(self, inputs: Dict) -> Dict:
         return inputs
+
+
+import argparse
+
+parser = argparse.ArgumentParser(parents=[model_server.parser])
+parser.add_argument(
+    "--predictor_host", help="The URL for the model predict function", required=True
+)
+parser.add_argument("--model_name", help="The name that the model is served under.")
+args, _ = parser.parse_known_args()
+
+
+if __name__ == "__main__":
+    model = ImageTransformer(
+        args.model_name, predictor_host=args.predictor_host #, protocol=args.protocol
+    )
+    ModelServer(workers=1).start([model])
