@@ -11,7 +11,7 @@ spec:
         command: ["python", "-m", "image_transformer"]
         args:
           - --model_name
-          - cifar10
+          - cifar
           - --protocol
           - v2
         resources:

@@ -35,7 +35,7 @@ def image_transform(instance):
 
 
 class ImageTransformer(kserve.Model):
-    def __init__(self, name: str, predictor_host: str, protocol: str):
+    def __init__(self, name: str, predictor_host: str, protocol: str="v2"):
         super().__init__(name)
         self.predictor_host = predictor_host
         self.protocol = protocol
