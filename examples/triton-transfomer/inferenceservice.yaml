@@ -5,11 +5,25 @@ metadata:
 spec:
   transformer:
     containers:
-      - image: kairos9603/kserve-titon-transfomer:v0.0.1
-        name: transformer
-        command: ["python", "-m", "model"]
-        args: ["--model_name", "onnx-cifar"]
+      - image: kairos9603/kserve-titon-transfomer:latest
+        imagePullPolicy: Always
+        name: kserve-container
+        command: ["python", "-m", "image_transformer"]
+        args:
+          - --model_name
+          - cifar10
+          - --protocol
+          - v2
+        resources:
+          limits:
+            cpu: 8
+            memory: 10Gi
+          requests:
+            cpu: 0.2
+            memory: 0.5Gi
   predictor:
+    nodeSelector:
+      nvidia.com/gpu.product: "NVIDIA-GeForce-GTX-1080-Ti"
     triton:
       storageUri: "pvc://onnx-cifar10-pvc"
       runtimeVersion: 22.04-py3

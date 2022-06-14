@@ -1,4 +1,5 @@
-FROM python:3.9-slim AS runtime
+# FROM python:3.9-slim AS runtime
+FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
 
 # RUN apt-get update && apt-get install -y wget
 # RUN wget -q https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh -O ~/miniconda.sh
@@ -12,4 +13,4 @@ RUN --mount=type=cache,target=/root/.cache pip install --upgrade pip && pip inst
 
 RUN useradd kserve -m -u 1000 -d /home/kserve
 USER 1000
-CMD ["python", "-m", "model"]
+ENTRYPOINT ["python", "-m", "image_transformer"]
