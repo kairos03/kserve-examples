@@ -27,10 +27,12 @@ def image_transform(instance):
     byte_array = base64.b64decode(instance["data"])
     image = Image.open(io.BytesIO(byte_array))
 
+    processed_image = image_processing(image)
+
     instance["name"] = "input"
     instance["datatype"] = "FP32"
-    instance["data"] = image_processing(image).tolist()
-    instance["shape"] = image.size
+    instance["data"] = processed_image.tolist()
+    instance["shape"] = [1] + list(processed_image.shape)
 
     return instance
 
@@ -50,7 +52,7 @@ class ImageTransformer(kserve.Model):
             transformed = image_transform(instance)
             result["inputs"].append(transformed)
         logging.info(f"[RESULT]: {result}")
-        logging.info(f"[PREPROCESS] Done: {st - time.time()}")
+        logging.info(f"[PREPROCESS] Done: {time.time() - st:.4f} s")
         return result
 
     def postprocess(self, inputs: Dict) -> Dict:
