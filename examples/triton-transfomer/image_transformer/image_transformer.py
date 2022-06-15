@@ -45,7 +45,10 @@ class ImageTransformer(kserve.Model):
         super().__init__(name)
         self.predictor_host = predictor_host
         self.protocol = protocol
-        logging.info(f"Start: {name}, {predictor_host}, {protocol}")
+        logging.info("MODEL NAME %s", name)
+        logging.info("PREDICTOR URL %s", self.predictor_host)
+        logging.info("PROTOCOL %s", self.protocol)
+        self.timeout = 100
 
     def preprocess(self, inputs: Dict) -> Dict:
         return inputs
