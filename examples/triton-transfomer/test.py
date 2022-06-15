@@ -1,9 +1,9 @@
-import os
+# import os
 
-import numpy as np
+# import numpy as np
 import requests
-from kserve import KServeClient
-from PIL import Image
+# from kserve import KServeClient
+# from PIL import Image
 from base64 import b64encode
 
 
@@ -34,21 +34,20 @@ def single_prediction():
         inputs = {
             "inputs": [
                 {
-                    # "name": "input",
-                    # "shape": "",
-                    # "datatype": "FP32",
                     "data": data.decode('utf-8'),
                 }
             ]
         }
-        # url = f"{HOST}/v2/models/{MODEL}/infer"
+        # HOST = "onnx-cifar10-transformer-default.omnious.svc.cluster.local"
+        HOST = "http://onnx-cifar10.omnious.svc.cluster.local"
+        url = f"{HOST}/v2/models/{MODEL}/infer"
+        print(url)
         # headers = {
-        #     "Host": model_url.split("/")[-1],
+        #     "Host": HOST
         # }
         # cookies = {
         #     "authservice_session": session_cookie,
         # }
-        url="http://localhost:8080"
         # response = session.post(url, headers=headers, cookies=cookies, json=inputs)
         response = session.post(url, json=inputs)
         # print(response.json())

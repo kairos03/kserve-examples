@@ -2,6 +2,7 @@ import base64
 import io
 import logging
 from typing import Dict
+import time
 
 import torchvision.transforms as transforms
 from PIL import Image
@@ -42,11 +43,14 @@ class ImageTransformer(kserve.Model):
         logging.info(f"Start: {name}, {predictor_host}, {protocol}")
 
     def preprocess(self, inputs: Dict) -> Dict:
+        logging.info("[PREPROCESS]")
+        st = time.time()
         result = {"inputs": []}
         for instance in inputs["inputs"]:
             transformed = image_transform(instance)
             result["inputs"].append(transformed)
-
+        logging.info(f"[RESULT]: {result}")
+        logging.info(f"[PREPROCESS] Done: {st - time.time()}")
         return result
 
     def postprocess(self, inputs: Dict) -> Dict:
